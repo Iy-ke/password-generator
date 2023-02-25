@@ -89,26 +89,59 @@ var upperCasedCharacters = [
 ];
 
 // combination of all arrays
-var combArr = specialCharacters.concat(lowerCasedCharacters, upperCasedCharacters, numericCharacters);
+// var combArr = specialCharacters.concat(lowerCasedCharacters, upperCasedCharacters, numericCharacters);
 
-var passCode = [];
+// var passCode = [];
 
 
 
 // Function to prompt user for password options
 function getPasswordOptions() {
-// lenQuestion
+  var passWordOptions = []
+  var finalPassword = []
+  // lenQuestion
   var lenQuestion = parseInt(prompt("how many characters do you want in your password?"))
 
 if (lenQuestion > 64) {
-  lenQuestion = parseInt(prompt("maximum password length is 64, please select another length"))
-
+  lenQuestion = alert("maximum password length is 64, please select another length")
+  return
 } else if (lenQuestion < 10) {
-  lenQuestion = parseInt(prompt("minimum password length is 10, please select another length"))
+  lenQuestion = alert("minimum password length is 10, please select another length")
 
+  return 
 }
-var x = lenQuestion
-return x
+
+var containUpperCase = confirm("Do your want your password to contain uppercase letters")
+var containLowerCase = confirm("Do your want your password to contain lowercase letters")
+var containSpecialChar = confirm("Do your want your password to contain special characters")
+var containNum = confirm("Do your want your password to contain numbers")
+if (containUpperCase){
+  passWordOptions = passWordOptions.concat(upperCasedCharacters)
+  finalPassword.push(getRandom(upperCasedCharacters))
+  lenQuestion--
+}
+if (containLowerCase){
+  passWordOptions = passWordOptions.concat(lowerCasedCharacters)
+  finalPassword.push(getRandom(lowerCasedCharacters))
+  lenQuestion--
+}
+if (containSpecialChar){
+  passWordOptions = passWordOptions.concat(specialCharacters)
+  finalPassword.push(getRandom(specialCharacters))
+  lenQuestion--
+}
+if (containNum){
+  passWordOptions = passWordOptions.concat(numericCharacters)
+  finalPassword.push(getRandom(numericCharacters))
+  lenQuestion--
+}
+for(var i = 0; i < lenQuestion; i++){
+  finalPassword.push(getRandom(passWordOptions))
+}
+
+console.log(finalPassword)
+return finalPassword.join('')
+// return x
 };
 
 
@@ -145,7 +178,7 @@ var generateBtn = document.querySelector('#generate');
 
 // Write password to the #password input
 function writePassword() {
-  var password = generatePassword();
+  var password = getPasswordOptions();
   var passwordText = document.querySelector('#password');
 
   passwordText.value = password;
